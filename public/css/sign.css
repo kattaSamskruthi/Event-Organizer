@@ -1,0 +1,39 @@
+*{
+    margin-top: 10px;;
+}
+#title
+{
+    border-bottom:1px grey solid;
+    width: 90%;
+    line-height: 30px;
+}
+body{
+  /* background-color: rgb(27, 5, 68);*/
+    background-image: url(../public/pictures/bg4.jpg);
+    /*background-repeat: repeat;*/
+   /* height:100%;*/
+   background-size: cover;
+    /*background-position: center;*/
+   /* background-image: repeating-radial-gradient(rgb(4, 23, 75), rgb(16, 80, 139) 10%, rgb(94, 216, 253) 20%)*/
+  /* background-image: radial-gradient(rgb(4, 42, 99), rgb(108, 209, 240));*/
+}
+   .btn{
+       padding: 15px;;
+       background-image: linear-gradient(to bottom right, rgb(21, 4, 99), rgb(42, 177, 211));
+       color: white;
+       width: 100px;
+       margin: auto;
+       cursor: pointer;
+       border-radius: 20px;
+      
+   }
+   .btn2{
+    padding: 15px;;
+    background-image: linear-gradient(to bottom right, rgb(4, 138, 156), rgb(186, 195, 197));
+    color: white;
+    width: 100px;
+    margin: auto;
+    cursor: pointer;
+    border-radius: 20px;
+   
+}

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Client-profile</title>
+    <link href="css/signup.css" rel="stylesheet">
+
+
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/script.js" charset="utf-8"> </script>
+
+
+    <script>
+        $(document).ready(function () {
+            localStorage.getItem("user");
+            //  $("#eidl").val(localStorage.getItem("user"));
+             alert(user);
+            // alert(JSON.stringify(eidl));
+            // alert("hi");
+            // $("#txtUid").blur(function () {
+            //     var uid = $("#txtUid").val();
+            //     var url = "/chk-user-in-table?thisuser=" + uid;
+            //     //alert(url);
+            //     $.get(url, function (kuchBhiJsonAry) {  //callbackfunction jo bhi vaapis aaega from server 
+            //        // alert(kuchBhiJsonAry);
+            //         alert(JSON.stringify(kuchBhiJsonAry));
+            //         if (kuchBhiJsonAry.length == 0)
+            //             $("#result").html("✔Available");
+            //         else
+            //             $("#result").html("❌Not Available");
+            //     })
+            // });
+            //=================================this entire thing is ajax only=================================
+            // $("#btnSearch").click(function () {
+
+                $("#txtUid").blur(function () {
+                var uid = $("#txtUid").val();
+
+                var url = "/chk-user-in-table?thisuser=" + uid; 
+                //alert(url);
+                $.get(url, function (kuchBhiJsonAry) {
+                    //alert(JSON.stringify(kuchBhiJsonAry));
+                    if (kuchBhiJsonAry.length == 0)
+                        $("#result").html("❌Invalid ID");
+                    else 
+                    {
+                       // alert(JSON.stringify(kuchBhiJsonAry));
+                       alert("Welcome Back");
+                       $("#result").html("✔");
+                        $("#name").val(kuchBhiJsonAry[0].name);
+                        $("#eid").val(kuchBhiJsonAry[0].eid);
+                        $("#addr").val(kuchBhiJsonAry[0].addr);
+                        $("#city").val(kuchBhiJsonAry[0].city);
+                        $("#cno").val(kuchBhiJsonAry[0].cno);
+                        $("#prev").attr("src", "/uploads/" + kuchBhiJsonAry[0].ppic);
+                        $("#jasoos").val(kuchBhiJsonAry[0].ppic);
+                    }
+                })
+            });
+        });
+    </script>
+    <script>
+        function loadFile(ref) {
+            var image = document.getElementById('prev');
+            image.src = URL.createObjectURL(ref.files[0]);
+        }
+        function doSubmit(e) {
+            //if(document.getElementById("txtUid").value=="admin")
+            document.frm.submit();
+        }
+    </script>
+</head>
+
+<body style="background-image: url(pictures/bggg3.jpg); background-repeat: no-repeat; background-size: cover;">
+<div class="container-fluid">
+    <br>
+    <div class="col-md-10 offset-md-1">
+        <div class="card mb-3"
+            style="padding: 10px;  background-color: rgb(216, 210, 210);box-shadow:  0px 0px 4px 4px grey;">
+            <div class="row">
+                <div class="col-md-4 mt-7"
+                    style="background-size: contain;background-color: rgb(216, 210, 210); margin-top: 60px;">
+                    <img src="pictures/birth.jpg" class="img-fluid rounded-start" alt="..."
+                        width="1800px" height="10000px">
+                </div>
+                <div class="col-md-8">
+                    <div class="row" style="margin-top:5px; margin-bottom: 5px;">
+                        <div class="col-md-12 bg-dark text-white">
+                            <center>
+                                <H5><i>CREATE AN ACCOUNT</i></H5>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div>
+                        <form name="frm" action="/profile-save" method="post" enctype="multipart/form-data">
+                            <!-- <div class="table-responsive"> -->
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <input type="hidden" id="jasoos" name="jasoos">
+                                            <label for="exampleInputEmail1" class="form-label">User-ID</label>
+                                            <div class="input-group flex-nowrap">
+                                                <!-- <span class="input-group-text" id="addon-wrapping">@</span> -->
+                                                <input type="text" name="uid" id="txtUid" class="form-control"
+                                                    placeholder="UserID" aria-label="Username"
+                                                    aria-describedby="addon-wrapping">
+                                                <span id="result"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-md-1 mt-4 ">
+                                            <span> </span>
+                                            <input class="btn-dark" type="button" value="Search" id="btnSearch">
+                                        </div> -->
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10 mt-2">
+                                            <label for="examplename" class="form-label">Full Name</label>
+                                            <input type="text" id="name" name="name" class="form-control"
+                                                placeholder="Full name" aria-label="Username"
+                                                aria-describedby="addon-wrapping">
+                                            <!-- <input type="text" name="name"> -->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10 mt-2">
+                                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                            <div class="input-group flex-nowrap">
+                                                <!-- <span class="input-group-text" id="addon-wrapping">@</span> -->
+                                                <input type="text" name="eid" id="eid" class="form-control"
+                                                    placeholder="Email-ID" aria-label="Usermail"
+                                                    aria-describedby="addon-wrapping">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-10 mt-2">
+                                                <label for="exampleaddress" class="form-label">Address</label>
+                                                <div class="input-group flex-nowrap">
+                                                    <!-- <span class="input-group-text" id="addon-wrapping">@</span> -->
+                                                    <input type="text" name="addr" id="addr" class="form-control"
+                                                        placeholder="Residential-Address" aria-label="Username"
+                                                        aria-describedby="addon-wrapping">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-10 mt-2">
+                                            <label for="examplecity" class="form-label">City</label>
+                                            <div class="input-group flex-nowrap">
+
+                                                <input type="text" name="city" id="city" class="form-control"
+                                                    placeholder="City" aria-label="Username"
+                                                    aria-describedby="addon-wrapping">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-10 mt-2">
+                                            <label for="examplemobno" class="form-label">Contact Number</label>
+                                            <div class="input-group flex-nowrap">
+                                                <!-- <span class="input-group-text" id="addon-wrapping">@</span> -->
+                                                <input type="text" name="cno" id="cno" class="form-control"
+                                                    placeholder="Contact-Number" aria-label="Username"
+                                                    aria-describedby="addon-wrapping">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 offset-md-2 mt-3">
+                                            <input class="btn-dark" type="submit" value="Submit"
+                                                formaction="/profile-save">
+                                        </div>
+                                        <div class="col-md-2 offset-md-2 mt-3">
+                                            <input class="btn-dark" type="submit" value="Update"
+                                                formaction="/profile-update">
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+
+                                    <div class="col-md-2 offset-md-2 mt-5 ">
+                                        <img src="pictures/LOGIN.png" width="150" height="150" id="prev">
+                                    </div>
+                                    <div class="col-md-1 offset-md-2 ">
+                                        <input type="file"
+                                            style="font-size: 0px;border-radius:10px;background-color: rgb(10, 9, 10);"
+                                            name="ppic" onchange="loadFile(this);">
+                                    </div>
+                                    <div class="col-md-5 offset-md-2 mt-2 ">
+
+                                        <span><b>Upload Profile pic</b></span>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                    
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+    </div>
+</body>
+
+</html>

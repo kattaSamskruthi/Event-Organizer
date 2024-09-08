@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Vendor-profile</title>
+    <link href="css/signup.css" rel="stylesheet">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/script.js" charset="utf-8"> </script>
+    <script>
+
+        $(document).ready(function () {
+
+            $('#items').change(function () {
+                var selserv = $("#selservices").val();
+                var items = $("#items").val();
+                selserv = selserv + "," + items;
+                if (selserv.indexOf(",") == 0) {
+                    selserv = selserv.substr(1, selserv.length);
+                }
+                // console.log(selserv);
+                $("#selservices").val(selserv);
+
+            })
+
+            // $("#txtUid").blur(function () {
+            //     var uid = $("#txtUid").val();
+            //     var url = "/chk-user-in-table?thisuser=" + uid;
+            //     //alert(url);
+            //     $.get(url, function (kuchBhiJsonAry) {  //callbackfunction jo bhi vaapis aaega from server 
+            //         // alert(kuchBhiJsonAry);
+            //         alert(JSON.stringify(kuchBhiJsonAry));
+            //         if (kuchBhiJsonAry.length == 0)
+            //             $("#result").html("Available");
+            //         else
+            //             $("#result").html("Not Available");
+
+            //     })
+            // });
+            //-----------------------------------------
+            // $("#btnSearch").click(function () {
+            //alert("hi");
+            $("#txtUid").blur(function () {
+                var uid = $("#txtUid").val();
+                var url = "/fetch-data?thisuser=" + uid;
+                //alert(url);
+                $.get(url, function (kuchBhiJsonAry) {
+                    //alert(JSON.stringify(kuchBhiJsonAry));
+                    if (kuchBhiJsonAry.length == 0)
+                       { $("#result").html("✨Welcome");
+                        $("#update").hide();
+                }
+                    else {
+                        $("#result").html("✔");
+                        // alert(JSON.stringify(kuchBhiJsonAry));
+                        alert("🌺welcome back🌺");
+                        $("#submit").hide();
+                        $("#name").val(kuchBhiJsonAry[0].name);
+                        $("#cno").val(kuchBhiJsonAry[0].cno);
+                        $("#firm").val(kuchBhiJsonAry[0].firm);
+                        $("#estd").val(kuchBhiJsonAry[0].estd);
+                        $("#addr").val(kuchBhiJsonAry[0].addr);
+                        $("#city").val(kuchBhiJsonAry[0].city);
+                        $("#aadhar").val(kuchBhiJsonAry[0].aadhar);
+                        $("#selservices").val(kuchBhiJsonAry[0].serve);//#serve(THIS IS ID) .serve(THIS IS NAME)
+                        $("#prev").attr("src", "/uploads/" + kuchBhiJsonAry[0].ppic);
+                        $("#jasoos").val(kuchBhiJsonAry[0].ppic);
+                    }
+                })
+            });
+        });
+
+
+    </script>
+    <script>
+        function loadFile(ref) {
+            var image = document.getElementById('prev');
+            image.src = URL.createObjectURL(ref.files[0]);
+        }
+        function doSubmit(e) {
+            //if(document.getElementById("txtUid").value=="admin")
+            document.frm.submit();
+        }
+    </script>
+</head>
+
+<body style="background-image: url(pictures/bggg3.jpg); background-repeat: no-repeat; background-size: cover;">
+    <br>
+
+    <div class="col-md-10 offset-md-1 ">
+        <div class="card mb-3"
+            style="padding: 10px;  background-color: rgb(216, 210, 210);box-shadow:  0px 0px 4px 4px grey;">
+
+            <div class="row" style="margin-top:7px; margin-bottom: 10px;">
+                <div class="col-md-12 bg-dark text-white">
+                    <center>
+                        <H4><i>✨ Register as a Vendor ✨</i></H4>
+                    </center>
+                </div>
+            </div>
+
+
+            <form name="frm" action="/profile-save" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-10">
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <input type="hidden" id="jasoos" name="jasoos">
+                                <label for="exampleInputEmail1" class="form-label">Email-ID</label>
+                                <!-- <input class="btn-dark" type="button" value="Search"> -->
+                                <div class="input-group flex-nowrap mt-1">
+
+                                    <input type="text" id="txtUid" name="uid" class="form-control"
+                                        placeholder="Enter valid Email-ID" aria-label="Username"
+                                        aria-describedby="addon-wrapping">
+                                    <span id="result">*</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 mt-3">
+                                <label for="examplename" class="form-label">Full Name</label>
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Full name"
+                                    aria-label="Username" aria-describedby="addon-wrapping">
+
+                            </div>
+                            <div class="col-md-5 mt-3">
+                                <label for="examplemobno" class="form-label">Contact Number</label>
+                                <div class="input-group flex-nowrap">
+
+                                    <input type="text" id="cno" name="cno" class="form-control"
+                                        placeholder="Contact-Number" aria-label="Username"
+                                        aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 mt-3">
+                                <label for="examplename" class="form-label">Firm Name</label>
+                                <input type="text" id="firm" name="firm" class="form-control" placeholder="Firm name"
+                                    aria-label="Username" aria-describedby="addon-wrapping">
+
+                            </div>
+                            <div class="col-md-5 mt-3">
+                                <label for="examplename" class="form-label">Established Year</label>
+                                <input type="text" id="estd" name="estd" class="form-control" placeholder="Estd. year"
+                                    aria-label="Username" aria-describedby="addon-wrapping">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Firm address</label>
+                                <div class="input-group flex-nowrap">
+
+                                    <input type="text" id="addr" name="addr" class="form-control"
+                                        placeholder="Firm address" aria-label="Username"
+                                        aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+                            <div class="col-md-5 mt-3">
+                                <label for="examplecity" class="form-label">City</label>
+                                <div class="input-group flex-nowrap">
+
+                                    <input type="text" id="city" name="city" class="form-control" placeholder="City"
+                                        aria-label="Username" aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 mt-3">
+                                <label for="exampleaddress" class="form-label">Aadhar card no.</label>
+                                <div class="input-group flex-nowrap">
+
+                                    <input type="text" id="aadhar" name="aadhar" class="form-control"
+                                        placeholder="Aadhar" aria-label="Username" aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 mt-3">
+                                <div class="input-group mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Services</label>
+                                    <div class="input-group flex-nowrap">
+                                        <select class="form-select" id="items" name="serve">
+                                            <option selected value="Catering">Catering</option>
+                                            <option value="Parlour">Parlour</option>
+                                            <option value="Mehendi">Mehendi</option>
+                                            <option value="Decorations">Decorations</option>
+                                            <option value="photography">Photography</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 mt-3 form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="selservices"
+                                    name="selserve"></textarea>
+                                <label for="floatingTextarea">Selected Services</label>
+                            </div>
+
+                            <div class="col-md-2 offset-md-1 mt-4">
+                                <input class="btn-dark" type="submit" id="submit" value="Submit" formaction="/profile-save-vendor">
+                            </div>
+                            <div class="col-md-2  mt-4">
+                                <input class="btn-dark" type="submit" value="Update" id="update"
+                                    formaction="/profile-update-vendor">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-2 mt-5 ">
+                                <img src="pictures/doc1.jpg" width="150" height="170" id="prev">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 offset-md-1 ">
+                                    <input type="file"
+                                        style="font-size: 0px;border-radius:10px;background-color: rgb(10, 9, 10);"
+                                        name="ppic" onchange="loadFile(this);">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-2 ">
+
+                            <span><b>ID Proof</b></span>
+
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

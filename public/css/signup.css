@@ -1,0 +1,36 @@
+*{
+    margin-top: 0px;;
+}
+
+.btn2{
+    padding: 5px;;
+    background-image: linear-gradient(to right, rgb(30, 32, 32), rgb(255,215,0));
+    color: white;
+    width: 100px;
+    margin: auto;
+    cursor: pointer;
+    border-radius: 20px;
+   
+}
+
+
+body{
+    background-image: url(../public/pictures/bgg3.jpg);
+}
+::-webkit-file-upload-button {
+    height: 35px;
+    width: 40px;
+    background-image: url(../pictures/cam.jpg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: image;
+    border-radius: 10px;
+    font-size: 0px;
+}
+::-webkit-file-upload-button:hover {
+    border: none;
+
+
+    border-radius: 10px;
+
+}

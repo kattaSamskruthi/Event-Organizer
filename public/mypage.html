@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Main-Page</title>
+
+    <style>
+        .err {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            /* border: 1px black solid; */
+            background-size: contain;
+        }
+
+        .ok {
+
+            background-image: url(pictures/tick.png);
+
+        }
+
+        .not-ok {
+            background-image: url(pictures/cross.png);
+        }
+    </style>
+
+
+    <!-- FONT AWESOME -->
+
+    <script src="https://kit.fontawesome.com/8c008a654c.js" crossorigin="anonymous"></script>
+
+    <!-- GOOGLE FONTS -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courgette&family=Dancing+Script&family=Lobster&family=Merienda&family=MonteCarlo&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP CDN LINK -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- CUSTOM STYLESHEETS INCLUDED -->
+
+    <link rel="stylesheet" href="css/style-mypg.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/script.js" charset="utf-8"> </script>
+
+
+    <script>
+        $(document).ready(function () {
+            //-----------------------------------------------
+            $("#pwd").blur(function () {
+                var r = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/; //regular expressions
+                var pwd = $("#pwd").val();
+                if (r.test(pwd) == false)
+                    $("#respwd").html("✔ Looks good");
+                else
+                    $("#respwd").html("❌ Weak password");
+            })
+
+
+
+            $("#txtUid").blur(function () {
+
+                var email = $("#txtUid").val();
+                var url = "/find-user-in-table?thisuser=" + email;
+                $.get(url, function (kuchBhiJsonAry) {  //callbackfunction jo bhi vaapis aaega from server 
+
+                    //  alert(JSON.stringify(kuchBhiJsonAry));
+                    if (kuchBhiJsonAry.length == 0)
+                        $("#result").html("✔ Welcome");
+
+                    else
+                        $("#result").html("❌ Account Exists");
+
+                })
+            })
+
+            $("#login").click(function () {
+
+                var email = $("#txtUid2").val();
+                var pwd = $("#pwd2").val();
+                var url = "/login-table?thisuser=" + email + "&pwd=" + pwd;
+
+                $.get(url, function (kuchBhiJsonAry) {
+                    localStorage.setItem("user", email);
+                    alert(JSON.stringify(kuchBhiJsonAry));
+                    if(kuchBhiJsonAry[0].type=="Vendor")
+                    { 
+                        location.href = "dash-vendor.html";
+                        localStorage.getItem("user");
+                        alert(user);
+                    }
+                    else 
+                    {
+                        location.href="dash-client.html";
+                        localStorage.getItem("user");
+                        alert(user);
+                    }
+                   
+
+                })
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <section id="title">
+
+            Nav Bar -->
+
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top ">
+                <a class="navbar-brand" href="#">
+                    <img src="pictures/mypg-logo-crop.jpg" alt="" width="35" height="35" style="margin-left: 15px;">
+                    <font size=5 color="#E0AD28 " face="Lucida Calligraphy" id="top">
+                        <b>Event Emporium</b><br>
+                    </font>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expande="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-1 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Portfolio</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Events</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="contact.html">📞Contact Us</a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-outline-light " type="button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" style="margin-right: 20px">SignUp</button>
+
+                    <button type="button" class="btn btn-outline-light" style="margin-right: 20px"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        LogIn
+                    </button>
+
+
+                </div>
+            </nav>
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <br><br><br><br>
+                    <center>
+                        <h1> Effortless Elegance</h1>
+
+                        <br>
+                        <h6>
+                            We provide with all the necessaties to organize a <br>
+                            perfect event customized according to your needs.<br>
+                            We work collaboraively to ensure that the event<br>
+                            is a success. We believe that even the finest<br>
+                            details can have a huge impact.
+                        </h6>
+                        <br>
+                        <button type="button" class="btn btn-outline-dark downbtn"><i class="fab fa-apple"></i>
+                            Download</button>
+                        <button type="button" class="btn btn-outline-dark downbtn"><i class="fab fa-google-play"></i>
+                            Download</button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Login Here</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label for="inputEmail4" class="form-label" name="mail">Email</label>
+                                                <!--<span id="errEmail" class="err">*</span> -->
+                                                <input type="email" name="email" id="txtUid2" class="form-control"
+                                                    id="eidl">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label for="inputPassword4" class="form-label">Password</label>
+                                                <input type="password" name="pwd" class="form-control" id="pwd2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-outline-dark"  id="login">LogIn</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="staticBackdropLabel">
+                                            <center>SignUp Here</center>
+                                        </h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form name="frm" action="/signup-save" method="post"
+                                            enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="inputEmail4" class="form-label"><b>Email</b></label>
+                                                    <input type="email" class="form-control" id="txtUid" name="email">
+                                                    <span id="result" style="float:left"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="inputPassword4"
+                                                        class="form-label"><b>Password</b></label>
+                                                    <input type="password" class="form-control" id="pwd" name="pwd">
+                                                    <span id="respwd" style="float:left"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="inputState" class="form-label"><b>Signup as</b></label>
+                                                    <select id="inputState" class="form-select" name="type">
+                                                        <option value="Client">Client</option>
+                                                        <option value="Vendor">Vendor</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-dark"
+                                            formaction="signup-save">Submit</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                    </center>
+
+
+
+
+
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <img src="pictures/flow.jpg" class="img-fluid">
+                </div>
+            </div>
+
+        </section>
+
+
+        <section id="advantages">
+            <div class="row">
+                <div class="col-md-4 ml-2">
+                    <div class="card"
+                        style="width: 18rem; float: left;background-color: rgb(238, 231, 231); box-shadow:  0px 0px 4px 4px grey;">
+                        <img src="pictures/deco-2.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">We ensure top quality services and top notch event organisation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ml-2">
+                    <div class="card"
+                        style="width: 18rem;float: left; background-color: rgb(238, 231, 231); box-shadow:  0px 0px 4px 4px grey;">
+                        <img src="pictures/deco-3.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">We help you customize designs for your dream function .</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ml-2">
+                    <div class="card"
+                        style="width: 18rem; float: left; background-color: rgb(238, 231, 231); box-shadow:  0px 0px 4px 4px grey;">
+                        <img src="pictures/dec1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">We ensure top quality services and top notch event organisation.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="customer">
+
+            <div class="row">
+                <div class="col-md-3">
+
+                    <h2>
+                        Planning<br>
+
+                    </h2>
+
+                    <p>
+                    <ul>
+
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                    </ul>
+                    </p>
+
+                </div>
+                <div class="col-md-3">
+
+                    <h2>
+                        Logistics<br>
+                    </h2>
+
+                    <p>
+                    <ul>
+
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                    </ul>
+                    </p>
+
+                </div>
+                <div class="col-md-3">
+                    <h2>
+                        Execution
+                    </h2>
+                    <p>
+                    <ul>
+
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                    </ul>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h2>
+                        Management
+                    </h2>
+                    <p>
+                    <ul>
+
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                        <li>chjwbcusdi</li>
+                    </ul>
+                    </p>
+                    <br><br><br>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <center>
+                                Stay Connected via -> <i class="fab fa-instagram-square"></i>
+                                <i class="fab fa-facebook"></i>
+                            </center>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Panel-vendors</title>
+
+    <!-- FONT AWESOME -->
+
+    <script src="https://kit.fontawesome.com/8c008a654c.js" crossorigin="anonymous"></script>
+
+    <!-- GOOGLE FONTS -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courgette&family=Dancing+Script&family=Lobster&family=Merienda&family=MonteCarlo&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP CDN LINK -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- CUSTOM STYLESHEETS INCLUDED -->
+
+    <link rel="stylesheet" href="css/style-mypg.css">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/angular.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+
+    <script>
+        var module = angular.module("kuchbhiModule", []);
+        module.controller("kuchController", function ($scope, $http) {
+            $scope.jsonArray = [];
+            // ----------------------------------------------------
+            $scope.doDelete = function (uidKuch) {
+
+                if (confirm("🚩This data will be Deleted Permanently🚩") == false)
+                    return;
+
+                $http.get("/user-del?uidx=" + uidKuch).then(fxOkKuch, fxNotOkKuch);
+
+                function fxOkKuch(response) {
+                    alert(response.data);
+                    $scope.doFetchAll();
+
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            }
+            //-------------------------------------------------
+            $scope.doFetchAll = function () {
+                $http.get("/fetch-all").then(fxOkKuch, fxNotOkKuch);
+
+                function fxOkKuch(response) {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArray = response.data;
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            }
+            //------------------------------------------------
+            $scope.setservices=[];
+            $scope.doFetchAllServices = function () {
+                $http.get("/fetch-services").then(fxOkKuch, fxNotOkKuch);
+
+                function fxOkKuch(response)
+                 {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArrayservices = response.data;
+                    var all="";
+                    for(i=0;i<$scope.jsonArrayservices.length;i++)
+                    {
+                        all=all+$scope.jsonArrayservices[i].serve+",";
+                    }
+                  //  console.log(all);
+                    all=all.substr(0,all.length-1)
+                    var ary=all.split(",");
+                    console.log(ary);
+                    var setserve=new Set(ary);
+                    console.log(setserve);
+
+                    $scope.setservices=Array.from(setserve);
+                    console.log( $scope.setservices);
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            }
+
+            //---------------------------------------------
+            $scope.index;
+            $scope.showFullDetails = function (index) {
+                $scope.index = index;
+            }
+        })
+    </script>
+</head>
+
+<body ng-app="kuchbhiModule" ng-controller="kuchController" ng-init="doFetchAllServices();">
+    <!-- nginit->used to call he function created above -->
+    <div class="container-fluid">
+
+        <hr>
+
+        <center>
+          
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="pictures/stand1.jpg">
+                </div>
+                <div class="col-md-8 offset-md-1">
+                    <center>Services :
+                        <select name="selserve" id="selserve">
+                            <option value="none">Select</option>
+                            <option ng-repeat="sr in setservices" value="{{sr}}">{{sr}}</option>
+                        </select>
+                    </center>
+                    <br>
+                    <input type="button" class="btn btn btn-outline-dark" value="View Data" ng-click="doFetchAll();">
+                    <div class="table-responsive">
+                        <TABLE border="1" width="500" class="table table-striped">
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Email-ID</th>
+                                <th>Full Name</th>
+                                <th>Contact-no.</th>
+                                <th>Services</th>
+                            </tr>
+
+                            <tr ng-repeat="obj in jsonArray">
+                                <td>{{$index}}</td>
+                                <td>{{obj.eid}}</td>
+                                <td>{{obj.name}}</td>
+                                <td>{{obj.cno}}</td>
+                                <td>{{obj.serve}}</td>
+                                <td align="center">
+                                    <input type="button" value="delete" ng-click="doDelete(obj.uid);">
+                                </td>
+                            </tr>
+                        </TABLE>
+                    </div>
+                </div>
+            </div>
+
+        </center>
+        <hr>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" ng-repeat="obj in jsonArray">
+                    <div class="card" style="box-shadow:  0px 0px 4px 4px grey;">
+                        <img src="uploads/{{obj.ppic}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{obj.firm}}</h5>
+                            <p>Name: {{obj.name}}</p>
+                            <p>Contact-no.: {{obj.cno}}</p>
+                            <p>Email-ID: {{obj.eid}}</p>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                                class="btn btn-outline-dark" ng-click="showFullDetails($index);">Details</a>
+                            <div class="modal" tabindex="-1">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ------------------------------------------------ -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Know the Vendor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{jsonArray[index].name}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

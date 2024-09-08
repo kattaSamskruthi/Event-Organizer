@@ -1,0 +1,81 @@
+#title
+{
+    background-color: rgb(252, 230, 212);
+}
+
+#heading
+{
+    background-color: rgb(252, 230, 212);
+}
+
+#advantages
+{
+    margin-top: 40px;
+    margin-left: 90px;
+    margin-right: 40px;
+}
+
+#customer
+{
+    background-color: rgb(252, 230, 212);
+    margin-top: 40px;
+}
+
+.container-fluid
+{
+    /* padding:1% 1%; */
+    margin-bottom: 5px;
+}
+
+h1
+{
+ font-family: 'Lobster', cursive;
+ color: rgb(136, 29, 15);
+}
+
+h2
+{
+    font-family: 'Lobster', cursive;
+    color: rgb(136, 29, 15);
+}
+
+h3
+{
+    font-family: 'Lobster', cursive;
+    color: rgb(136, 29, 15);
+}
+
+h5
+{
+    font-family: 'Lobster', cursive;
+    color: rgb(136, 29, 15);
+}
+
+h6
+{
+    font-family: 'Merienda', cursive;
+}
+
+.downbtn
+{
+padding: 10x;
+margin-right: 20px;
+}
+
+.downbtn:hover
+{
+    background-color:rgb(136, 29, 15); ;
+    color: white;
+}
+
+#footer{
+    background-color: rgb(191, 245, 238);
+}
+
+#footer2{
+    background-color: rgb(191, 216, 245);
+}
+
+/* #result{
+    background-color: rgb(253, 167, 152);
+} */
